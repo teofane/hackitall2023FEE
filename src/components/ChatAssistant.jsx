@@ -4,7 +4,8 @@ import { MessageLeft, MessageRight } from "./Message";
 import { TextInput } from "./TextInput";
 import { Paper, Box, IconButton } from "@mui/material";
 import ChatIcon from '@mui/icons-material/Chat'; // Import Chat icon
-import CloseIcon from '@mui/icons-material/Close'; // Import Close icon
+import CloseIcon from '@mui/icons-material/Close';
+import {useQuery} from "react-query"; // Import Close icon
 
 const useStyles = makeStyles((theme) => createStyles({
   paper: {
@@ -70,7 +71,12 @@ const useStyles = makeStyles((theme) => createStyles({
 export default function ChatAssistant() {
   const classes = useStyles();
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [messages, setMessages] = useState([{data:"Salut! Eu sunt asistentul tau virtual si te pot ajuta cu orice intrebari ai avea!", who:"chatGPT"}]);
+  const [isLoading, setIsLoading] = useState(false)
 
+  const appendNewMessage = (message, who) => {
+    setMessages(prevMessages => [...prevMessages, {data: message, who:who}]);
+  }
   const toggleChat = () => {
     setIsChatOpen(!isChatOpen);
   };
@@ -87,22 +93,36 @@ export default function ChatAssistant() {
             <CloseIcon />
           </IconButton>
           <Paper id="style-1" className={classes.messagesBody}>
-            <MessageLeft
-              message="Mesaj chat"
-              timestamp="MM/DD 00:00"
-              photoURL="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA1L2pvYjcyNC0xODctcC5wbmc.png"
-              displayName="Eco assistant"
-              avatarDisp={true}
-            />
-            <MessageRight
-              message="Mesaj user"
-              timestamp="MM/DD 00:00"
-              photoURL="https://images.rawpixel.com/image_png_800/cHJpvmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA1L2pvYjcyNC0xODctcC5wbmc.png"
-              displayName="Me"
-              avatarDisp={false}
-            />
+            {messages?.map((el) => {
+              if(el.who === "chatGPT") {
+                return (
+                  <MessageLeft
+                    message={el.data}
+                    photoURL="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA1L2pvYjcyNC0xODctcC5wbmc.png"
+                    displayName="Eco Assistant"
+                    avatarDisp={true}
+                  />
+                );
+              } else {
+                return (
+                  <MessageRight
+                  message={el.data}
+                  photoURL="https://images.rawpixel.com/image_png_800/cHJpvmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA1L2pvYjcyNC0xODctcC5wbmc.png"
+                  displayName="Me"
+                  avatarDisp={false}
+                />
+                )
+              }
+            })}
+            {/*<MessageRight*/}
+            {/*  message="Mesaj user"*/}
+            {/*  timestamp="MM/DD 00:00"*/}
+            {/*  photoURL="https://images.rawpixel.com/image_png_800/cHJpvmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA1L2pvYjcyNC0xODctcC5wbmc.png"*/}
+            {/*  displayName="Me"*/}
+            {/*  avatarDisp={false}*/}
+            {/*/>*/}
           </Paper>
-          <TextInput />
+          <TextInput appendNewMessage={appendNewMessage}/>
         </Paper>
       )}
     </Box>
