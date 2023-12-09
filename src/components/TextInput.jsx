@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { createStyles, makeStyles } from "@mui/styles";
 import Button from "@mui/material/Button";
 import SendIcon from '@mui/icons-material/Send';
@@ -22,8 +22,24 @@ const useStyles = makeStyles((theme) =>
 );
 
 
-export const TextInput = () => {
-  const classes = useStyles();
+export const TextInput = ({appendNewMessage}) => {
+    const [inputValue, setInputValue] = useState('');
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value);
+    };
+    const handleClick = (ev) => {
+        ev.preventDefault();
+        appendNewMessage(inputValue, "user")
+        appendNewMessage("Searching the best results for you...", "chatGPT")
+        setInputValue('');
+        fetch("http://localhost:8080/chatgpt", {
+            method: "post",
+            body: inputValue
+        }).then(data => data.text())
+            .then(data => appendNewMessage(data, "chatGPT"));
+    }
+
+    const classes = useStyles();
   return (
     <form className={classes.wrapForm} noValidate autoComplete="off">
       <TextField
@@ -31,9 +47,10 @@ export const TextInput = () => {
         label="Ask me anything"
         className={classes.wrapText}
         size={"small"}
-        //margin="normal"
+        value={inputValue}
+        onChange={handleInputChange}
       />
-      <Button variant="contained" color="primary" className={classes.button}>
+      <Button variant="contained" color="primary" className={classes.button} onClick={handleClick}>
         <SendIcon />
       </Button>
     </form>
