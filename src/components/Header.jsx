@@ -15,7 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from "react-router-dom";
 
 
-const pages = ['Overview', 'Events', 'Contact'];
+const pages = ['Events', 'Contact'];
 const settings = ['My Profile', 'Eco Card', 'Logout'];
 
 function Header() {
@@ -99,7 +99,7 @@ function Header() {
               {pages.map((page) => (
                 <MenuItem linkButton key={page} onClick={() => {
                   handleCloseNavMenu();
-                  navigate(`/${page}`)
+                  navigate(`/${page}`);
                 }}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
