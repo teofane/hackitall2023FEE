@@ -1,0 +1,16 @@
+/* OverviewPage.css */
+body {
+    margin: 0;
+    padding: 0;
+    background-image: none;
+    background-color: #f1f0ee; /* Light green with reduced saturation */
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}
+
+/* Add transparency to your header if necessary */
+.App-header {
+    background-color: transparent;
+    /* ... other styles ... */
+}
