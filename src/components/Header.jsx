@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from "react-router-dom";
 
+
 const pages = ['Overview', 'Events', 'Contact'];
 const settings = ['My Profile', 'Eco Card', 'Logout'];
 
@@ -39,10 +40,15 @@ function Header() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ mt: 4, backgroundColor: 'white' }}> {/* Add margin-top */}
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+        <Avatar
+        src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA1L2pvYjcyNC0xODctcC5wbmc.png" // Replace with the path to your image
+        alt="HackItAll Logo"
+        sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}
+        />
+
           <Typography
             variant="h6"
             noWrap
@@ -54,14 +60,14 @@ function Header() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: 'grey',
               textDecoration: 'none',
             }}
           >
             HackItAll
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none'} }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -91,7 +97,7 @@ function Header() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={() => {
+                <MenuItem linkButton key={page} onClick={() => {
                   handleCloseNavMenu();
                   navigate(`/${page}`)
                 }}>
@@ -113,7 +119,7 @@ function Header() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: 'grey',
               textDecoration: 'none',
             }}
           >
@@ -127,7 +133,7 @@ function Header() {
                   handleCloseNavMenu();
                   navigate(`/${page}`)
                 }}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'grey', display: 'block' }}
               >
                 {page}
               </Button>
