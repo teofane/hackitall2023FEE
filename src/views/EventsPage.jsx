@@ -1,9 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
-import HighchartsMap from 'highcharts/modules/map';
-import proj4 from 'proj4';
-import mapDataRO from '@highcharts/map-collection/countries/ro/ro-all.geo.json';
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import {
     Avatar,
     Box, Chip,
@@ -15,12 +12,13 @@ import {
     Paper,
     Typography
 } from "@mui/material";
-import {osm} from "pigeon-maps/providers";
-import {Map, Marker} from "pigeon-maps";
-import {useNavigate, useNavigation} from "react-router-dom";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import Highcharts from 'highcharts';
+import HighchartsMap from 'highcharts/modules/map';
+import { Map, Marker } from "pigeon-maps";
+import { osm } from "pigeon-maps/providers";
+import proj4 from 'proj4';
+import { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 if (typeof window !== 'undefined') {
   window.proj4 = window.proj4 || proj4;
@@ -99,7 +97,7 @@ const EventPage = () => {
                                 navigate("/event/" + event.id)
                             }}
                         >
-                            <IconButton onClick={() => handleLikeClick(event.id)} style={{ position: 'absolute', zIndex: 1 }}>
+                            <IconButton >
                                 <FavoriteIcon />
                             </IconButton>
                             <div style={{ position: 'absolute', top: '10px', right: '10px', display: 'flex', alignItems: 'center' }}>

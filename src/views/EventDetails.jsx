@@ -1,9 +1,9 @@
-import { useLocation, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { Box, CircularProgress, Typography, List, ListItem, Paper, Collapse, IconButton } from "@mui/material";
+import { Box, CircularProgress, Typography, List, ListItem, Paper, Collapse, IconButton, Grid, ListItemAvatar, Avatar, ListItemText, Divider } from "@mui/material";
 import { Map, Marker } from "pigeon-maps";
 import { osm } from 'pigeon-maps/providers';
 import { Map as MapIcon } from '@mui/icons-material';
+import { useParams } from "react-router-dom";
 
 export default function EventDetails() {
   const { id } = useParams();
@@ -57,51 +57,100 @@ export default function EventDetails() {
               </Box>
             </Collapse>
           </Box>
-          <Typography textAlign="left" variant="h4" sx={{ marginBottom: 3 }}>
-            {event.title}
+          <Typography textAlign="left" variant="h4" sx={{ marginBottom: 3, display: 'flex', alignItems: 'center' }}>
+            {event.title} - {event.date}
+            <Box sx={{ backgroundColor: '#f0f0f0', padding: '5px', borderRadius: '10px', marginLeft: '20px', marginTop: '5px' }}>
+              <Typography
+                textAlign="left"
+                variant="body1"
+                sx={{
+                  backgroundColor: '#cce7c9',
+                  padding: '5px',
+                  borderRadius: '15px',
+                  fontSize: '1.2rem',
+                }}
+              >
+                Points: {event.points}
+              </Typography>
+            </Box>
           </Typography>
-          <Typography textAlign="left" variant="body1" sx={{ maxWidth: 900 }}>
+          <Typography
+            textAlign="justify"
+            variant="body1"
+            sx={{
+              maxWidth: 900,
+              marginLeft: '20px',
+              backgroundColor: '#cce7c9',
+              padding: '10px',
+              borderRadius: '10px',
+              marginBottom: '20px',
+            }}
+          >
             {event.description}
           </Typography>
-          <Typography textAlign="left" variant="body1">
-            Date: {event.date}
-          </Typography>
-          <Typography textAlign="left" variant="body1">
-            Items:
-            <List>
-              {event.items.map((item, index) => (
-                <ListItem key={index}>{item}</ListItem>
-              ))}
-            </List>
-          </Typography>
-          <Typography textAlign="left" variant="body1">
-            Participants:
-            <List>
-              {event.participants.map((participant, index) => (
-                <ListItem key={index}>{participant}</ListItem>
-              ))}
-            </List>
-          </Typography>
-          <Box sx={{ backgroundColor: '#f0f0f0', padding: '10px', borderRadius: '10px', marginTop: '20px' }}>
-            <Typography textAlign="left" variant="body1">
-              Points: {event.points}
-            </Typography>
-          </Box>
-          <Typography textAlign="left" variant="body1">
+          <Grid container spacing={2} sx={{ marginLeft: '10px', maxWidth: 900 }}>
+            <Grid item xs={4}>
+              <Typography textAlign="left" variant="body1">
+                Participants:
+                <List sx={{ paddingLeft: '0px' }}>
+                  {event.participants.map((participant, index) => (
+
+                    <ListItem key={index} sx={{ marginBottom: '5px' }}>
+                      <ListItem alignItems="flex-start">
+                        <ListItemAvatar>
+                          <Avatar   alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={participant}
+                          secondary={
+                            <React.Fragment>
+                              <Typography
+                                sx={{ display: 'inline' }}
+                                component="span"
+                                variant="body2"
+                                color="text.primary"
+                              >
+                              </Typography>
+                              {"Confirmed participation"}
+                            </React.Fragment>
+                          }
+                        />
+                      </ListItem>
+                    </ListItem>
+                  ))}
+                </List>
+              </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Typography textAlign="left" variant="body1">
+                Items:
+                <List sx={{ paddingLeft: '20px' }}>
+                  {event.items.map((item, index) => (
+                    <ListItem key={index} sx={{ marginBottom: '5px' }}>
+                      &#8226; {item}
+                    </ListItem>
+                  ))}
+                </List>
+              </Typography>
+            </Grid>
+
+          </Grid>
+
+          <Typography textAlign="left" variant="body1" sx={{ marginLeft: '20px' }}>
             Announcements:
             <List>
               {event.announces.map((announcement, index) => (
-                <Paper key={index} elevation={3} sx={{ margin: '10px', padding: '10px', borderRadius: '10px', backgroundColor: 'white' }}>
+                <Paper key={index} elevation={3} sx={{ margin: '10px', padding: '10px', borderRadius: '10px', backgroundColor: 'white', width: 'fit-content' }}>
                   {announcement}
                 </Paper>
               ))}
             </List>
           </Typography>
-          <Typography textAlign="left" variant="body1">
+          <Typography textAlign="left" variant="body1" sx={{ marginLeft: '20px' }}>
             Comments:
             <List>
               {event.comments.map((comment, index) => (
-                <Paper key={index} elevation={3} sx={{ margin: '10px', padding: '10px', borderRadius: '10px', backgroundColor: 'white' }}>
+                <Paper key={index} elevation={3} sx={{ margin: '10px', padding: '10px', borderRadius: '10px', backgroundColor: 'white', width: 'fit-content' }}>
                   {comment}
                 </Paper>
               ))}
