@@ -97,8 +97,8 @@ function Header() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem linkButton key={page} onClick={() => {
-                  handleCloseNavMenu();
+                  <MenuItem key={page} onClick={() => {
+                    handleCloseNavMenu();
                   if (page === 'Overview') {
                     navigate('/');
                   } else {
@@ -133,8 +133,11 @@ function Header() {
               <Button
                 key={page}
                 onClick={() => {
-                  handleCloseNavMenu();
-                  navigate(`/${page}`)
+                    handleCloseNavMenu();
+                    if (page === 'Overview') {
+                        navigate('/');
+                    } else {
+                        navigate(`/${page}`)};
                 }}
                 sx={{ my: 2, color: 'grey', display: 'block' }}
               >

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { createStyles, makeStyles } from "@mui/styles";
 import { MessageLeft, MessageRight } from "./Message";
 import { TextInput } from "./TextInput";
-import { Paper, Box, IconButton } from "@mui/material";
+import {Paper, Box, IconButton, Typography} from "@mui/material";
 import ChatIcon from '@mui/icons-material/Chat'; // Import Chat icon
 import CloseIcon from '@mui/icons-material/Close';
 import {useQuery} from "react-query"; // Import Close icon
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => createStyles({
     alignItems: 'center',
     position: 'relative',
     backgroundColor: '#f1f0ee',
-    borderRadius: '40px',
+    borderRadius: '2px',
     padding: theme.spacing(2),
     overflow: 'hidden',
     transition: '0.3s ease-in-out',
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => createStyles({
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     fontSize: '1rem',
     color: theme.palette.text.primary,
-    borderRadius: '15px',
+    borderRadius: '2px',
     boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.05)',
     '&::-webkit-scrollbar': {
       width: '6px'
@@ -89,9 +89,12 @@ export default function ChatAssistant() {
         </div>
       ) : (
         <Paper className={classes.paper}>
-          <IconButton className={classes.closeButton} onClick={toggleChat}>
+          <IconButton className={classes.closeButton} onClick={toggleChat} variant="contained" style={{ backgroundColor: 'black', color: 'white' }}>
             <CloseIcon />
           </IconButton>
+          <Box sx={{ backgroundColor: 'black', color: 'white', textAlign: 'center', width:"100%"}}>
+            <Typography variant="body1">Live Support</Typography>
+          </Box>
           <Paper id="style-1" className={classes.messagesBody}>
             {messages?.map((el) => {
               if(el.who === "chatGPT") {
@@ -114,13 +117,6 @@ export default function ChatAssistant() {
                 )
               }
             })}
-            {/*<MessageRight*/}
-            {/*  message="Mesaj user"*/}
-            {/*  timestamp="MM/DD 00:00"*/}
-            {/*  photoURL="https://images.rawpixel.com/image_png_800/cHJpvmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA1L2pvYjcyNC0xODctcC5wbmc.png"*/}
-            {/*  displayName="Me"*/}
-            {/*  avatarDisp={false}*/}
-            {/*/>*/}
           </Paper>
           <TextInput appendNewMessage={appendNewMessage}/>
         </Paper>

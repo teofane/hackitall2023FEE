@@ -16,7 +16,7 @@ function App() {
       <Routes>
         <Route path='/login' element={<LoginPage />} />
         <Route path='/' element={<OverviewPage />} />
-        <Route path='/event/RebuildTheForest' element={<EventDetails />} />
+        <Route path='/event/:id' element={<EventDetails />} />
         <Route path='/events' element={<EventsPage />} />
         <Route path='/myEcoCard' element={<CardInfoPage />} />
       </Routes>
