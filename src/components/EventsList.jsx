@@ -13,6 +13,7 @@ import {
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import { Link } from 'react-router-dom'; // Import Link from React Router
 
 function EventsList() {
   const [likedEvents, setLikedEvents] = useState([]);
@@ -81,52 +82,55 @@ function EventsList() {
       <Slider {...settings}>
         {events.map((event, index) => (
           <div key={event.id} style={{ width: '100%', padding: '10px' }}>
-            <Paper
-              style={{
-                height: '200px',
-                position: 'relative',
-                padding: '20px',
-                backgroundColor: recommendedEventId === event.id ? 'gold' : '#FFFFFF',
-              }}
-            >
-              <IconButton onClick={() => handleLikeClick(event.id)} style={{ position: 'absolute', zIndex: 1 }}>
-                <FavoriteIcon />
-              </IconButton>
-              <div style={{ position: 'absolute', top: '10px', right: '10px', display: 'flex', alignItems: 'center' }}>
-                <CalendarTodayIcon style={{ marginRight: '5px' }} />
-                <Typography variant="body2">{event.date}</Typography>
-              </div>
-              <ListItem>
-                <ListItemAvatar>
-                  <Avatar>
-                    <NavigateNextIcon />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={<Typography fontWeight="bold">{event.title}</Typography>}
-                  secondary={
-                    Array.isArray(event.keywords) && event.keywords.map((keyword, keyIndex) => (
-                      <Chip key={keyIndex} label={keyword} style={{ margin: '5px', backgroundColor: '#cce7c9', color: 'black'}} />
-                    ))
-                  }
-                />
-              </ListItem>
-              {recommendedEventId === event.id && (
-                <Typography
-                  variant="body2"
-                  style={{
-                    position: 'absolute',
-                    bottom: '10px',
-                    left: '20px',
-                    color: 'white',
-                    fontWeight: 'bold',
-                    fontSize: '15px',
-                  }}
-                >
-                  Recommended based on your past attendances
-                </Typography>
-              )}
-            </Paper>
+            <Link to={`event/${event.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Paper
+                style={{
+                  height: '200px',
+                  position: 'relative',
+                  padding: '20px',
+                  backgroundColor: recommendedEventId === event.id ? 'gold' : '#FFFFFF',
+                  cursor: 'pointer', // Add cursor pointer for click indication
+                }}
+              >
+                <IconButton onClick={() => handleLikeClick(event.id)} style={{ position: 'absolute', zIndex: 1 }}>
+                  <FavoriteIcon />
+                </IconButton>
+                <div style={{ position: 'absolute', top: '10px', right: '10px', display: 'flex', alignItems: 'center' }}>
+                  <CalendarTodayIcon style={{ marginRight: '5px' }} />
+                  <Typography variant="body2">{event.date}</Typography>
+                </div>
+                <ListItem>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <NavigateNextIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={<Typography fontWeight="bold">{event.title}</Typography>}
+                    secondary={
+                      Array.isArray(event.keywords) && event.keywords.map((keyword, keyIndex) => (
+                        <Chip key={keyIndex} label={keyword} style={{ margin: '5px', backgroundColor: '#cce7c9', color: 'black'}} />
+                      ))
+                    }
+                  />
+                </ListItem>
+                {recommendedEventId === event.id && (
+                  <Typography
+                    variant="body2"
+                    style={{
+                      position: 'absolute',
+                      bottom: '10px',
+                      left: '20px',
+                      color: 'white',
+                      fontWeight: 'bold',
+                      fontSize: '15px',
+                    }}
+                  >
+                    Recommended based on your past attendances
+                  </Typography>
+                )}
+              </Paper>
+            </Link>
           </div>
         ))}
       </Slider>
