@@ -4,6 +4,8 @@ import { Map, Marker } from "pigeon-maps";
 import { osm } from 'pigeon-maps/providers';
 import { Map as MapIcon } from '@mui/icons-material';
 import { useParams } from "react-router-dom";
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+
 
 export default function EventDetails() {
   const { id } = useParams();
@@ -74,20 +76,21 @@ export default function EventDetails() {
               </Typography>
             </Box>
           </Typography>
+          <Divider sx={{ my: 2 }} /> {/* Top horizontal line */}
           <Typography
-            textAlign="justify"
-            variant="body1"
-            sx={{
-              maxWidth: 900,
-              marginLeft: '20px',
-              backgroundColor: '#cce7c9',
-              padding: '10px',
-              borderRadius: '10px',
-              marginBottom: '20px',
-            }}
-          >
-            {event.description}
-          </Typography>
+                  textAlign="justify"
+                  variant="body1"
+                  sx={{
+                    maxWidth: 900,
+                    mx: '20px', // shorthand for margin-left and margin-right
+                    padding: '10px',
+                    borderRadius: '10px',
+                    marginBottom: '20px',
+                  }}
+                >
+                  {event.description}
+                </Typography>
+                <Divider sx={{ my: 2 }} /> {/* Top horizontal line */}
           <Grid container spacing={2} sx={{ marginLeft: '10px', maxWidth: 900 }}>
             <Grid item xs={4}>
               <Typography textAlign="left" variant="body1">
@@ -121,36 +124,41 @@ export default function EventDetails() {
                 </List>
               </Typography>
             </Grid>
-            <Grid item xs={4}>
-              <Typography textAlign="left" variant="body1">
+            <Grid item xs={4} sx={{ backgroundColor: '#cce7c9', padding: '10px', borderRadius: '10px' }}>
+              <Typography textAlign="center" variant="body1" sx={{ marginBottom: '15px' }}>
                 Items:
-                <List sx={{ paddingLeft: '20px' }}>
-                  {event.items.map((item, index) => (
-                    <React.Fragment key={index}>
-                      <ListItem sx={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
-                        <input type="checkbox" style={{ marginRight: '5px' }} /> {/* Checkbox */}
-                        <Typography sx={{ marginLeft: '5px' }}>{item}</Typography> {/* Item text */}
-                      </ListItem>
-                      {index !== event.items.length - 1 && <Divider />} {/* Add a divider except for the last item */}
-                    </React.Fragment>
-                  ))}
-                </List>
               </Typography>
+              <List sx={{ padding: 0 }}>
+                {event.items.map((item, index) => (
+                  <React.Fragment key={index}>
+                    <ListItem sx={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
+                      <input type="checkbox" style={{ marginRight: '5px' }} /> {/* Checkbox */}
+                      <Typography>{item}</Typography> {/* Item text */}
+                    </ListItem>
+                    {index !== event.items.length - 1 && <Divider />} {/* Add a divider except for the last item */}
+                  </React.Fragment>
+                ))}
+              </List>
             </Grid>
 
           </Grid>
 
-          <Typography textAlign="left" variant="body1" sx={{ marginLeft: '20px' }}>
-            Announcements:
-            <List>
-              {event.announces.map((announcement, index) => (
-                <Paper key={index} elevation={3} sx={{ margin: '10px', padding: '10px', borderRadius: '10px', backgroundColor: 'white', width: 'fit-content' }}>
-                  {announcement}
-                </Paper>
-              ))}
-            </List>
-          </Typography>
-          <Typography textAlign="left" variant="body1" sx={{ marginLeft: '20px' }}>
+         <Typography variant="body1" sx={{ marginLeft: '20px', fontWeight: 'bold' }}>
+           Announcements:
+         </Typography>
+         <List sx={{ width: '50%' }}> {/* Set width to 100% if you want the Paper to be full-width */}
+           {event.announces.map((announcement, index) => (
+             <ListItem key={index} sx={{ display: 'block', paddingY: '10px' }}>
+               <Paper elevation={3} sx={{ padding: '10px', borderRadius: '10px', backgroundColor: '#FFFFB1' }}>
+                 <Typography variant="body2" sx={{ fontSize: '1.1rem' }}>
+                   {announcement}
+                 </Typography>
+               </Paper>
+             </ListItem>
+           ))}
+         </List>
+
+          <Typography textAlign="left" variant="body1" sx={{ marginLeft: '20px', fontWeight: 'bold' }}>
             Comments:
             <List>
               {event.comments.map((comment, index) => (
