@@ -112,7 +112,7 @@ const EventPage = () => {
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
-                                    primary={<Typography fontWeight="bold">{event.title}</Typography>}
+                                    primary={<Typography fontWeight="bold" style={{ marginTop: '-60px' }}>{event.title}</Typography>}
                                     secondary={
                                         Array.isArray(event.keywords) && event.keywords.map((keyword, keyIndex) => (
                                             <Chip key={keyIndex} label={keyword} style={{ margin: '5px', backgroundColor: '#cce7c9', color: 'black'}} />
