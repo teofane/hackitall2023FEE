@@ -95,6 +95,9 @@ const EventPage = () => {
                             onMouseOut={ev => {
                                 setHoveredOnList(null)
                             }}
+                            onMouseDown={ev => {
+                                navigate("/event/" + event.id)
+                            }}
                         >
                             <IconButton onClick={() => handleLikeClick(event.id)} style={{ position: 'absolute', zIndex: 1 }}>
                                 <FavoriteIcon />
@@ -156,7 +159,6 @@ const EventPage = () => {
                                             onMouseOut={() => setHoveredEvent(null)} />
                   }
               </Map>
-                {console.log(hoveredEvent || hoveredOnList)}
               {(hoveredEvent || hoveredOnList) &&  <CustomTooltip event={hoveredEvent || hoveredOnList} isVisible={hoveredEvent || hoveredOnList} />}
           </Box>
         </Box>
