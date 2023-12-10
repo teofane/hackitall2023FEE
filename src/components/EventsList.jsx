@@ -17,6 +17,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 function EventsList() {
   const [likedEvents, setLikedEvents] = useState([]);
   const [events, setEvents] = useState([]);
+  const [recommendedEventId, setRecommendedEventId] = useState(null);
 
   useEffect(() => {
     // Fetch events from backend using fetch
@@ -28,6 +29,17 @@ function EventsList() {
       })
       .catch(error => {
         console.error('Error fetching events:', error);
+      });
+
+    // Fetch recommended event ID
+    fetch('http://localhost:8080/recommandetion')
+      .then(response => response.json())
+      .then(data => {
+        console.log("Recommended Event ID:", data.id);
+        setRecommendedEventId(data.id);
+      })
+      .catch(error => {
+        console.error('Error fetching recommendation:', error);
       });
   }, []);
 
@@ -68,9 +80,15 @@ function EventsList() {
     <div style={{ padding: '20px' }}>
       <Slider {...settings}>
         {events.map((event, index) => (
-
-          <div key={event.id} style={{ width: '100%', padding: '10px' }}> {/* Wrapper div for each slide */}
-            <Paper style={{ height: '200px', position: 'relative', padding: '20px',backgroundColor: '#FFFFFF' }}> {/* Relative position context */}
+          <div key={event.id} style={{ width: '100%', padding: '10px' }}>
+            <Paper
+              style={{
+                height: '200px',
+                position: 'relative',
+                padding: '20px',
+                backgroundColor: recommendedEventId === event.id ? 'gold' : '#FFFFFF',
+              }}
+            >
               <IconButton onClick={() => handleLikeClick(event.id)} style={{ position: 'absolute', zIndex: 1 }}>
                 <FavoriteIcon />
               </IconButton>
@@ -93,6 +111,21 @@ function EventsList() {
                   }
                 />
               </ListItem>
+              {recommendedEventId === event.id && (
+                <Typography
+                  variant="body2"
+                  style={{
+                    position: 'absolute',
+                    bottom: '10px',
+                    left: '20px',
+                    color: 'white',
+                    fontWeight: 'bold',
+                    fontSize: '15px',
+                  }}
+                >
+                  Recommended based on your past attendances
+                </Typography>
+              )}
             </Paper>
           </div>
         ))}
