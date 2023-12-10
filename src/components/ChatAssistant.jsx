@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => createStyles({
     alignItems: 'center',
     position: 'relative',
     backgroundColor: '#f1f0ee',
-    borderRadius: '40px',
+    borderRadius: '2px',
     padding: theme.spacing(2),
     overflow: 'hidden',
     transition: '0.3s ease-in-out',
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => createStyles({
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     fontSize: '1rem',
     color: theme.palette.text.primary,
-    borderRadius: '15px',
+    borderRadius: '2px',
     boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.05)',
     '&::-webkit-scrollbar': {
       width: '6px'
@@ -89,7 +89,7 @@ export default function ChatAssistant() {
         </div>
       ) : (
         <Paper className={classes.paper}>
-          <IconButton className={classes.closeButton} onClick={toggleChat}>
+          <IconButton className={classes.closeButton} onClick={toggleChat} variant="contained" style={{ backgroundColor: '#d8d8d8' }}>
             <CloseIcon />
           </IconButton>
           <Paper id="style-1" className={classes.messagesBody}>

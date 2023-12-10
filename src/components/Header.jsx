@@ -97,7 +97,7 @@ function Header() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem linkButton key={page} onClick={() => {
+                <MenuItem key={page} onClick={() => {
                   handleCloseNavMenu();
                   if (page === 'Overview') {
                     navigate('/');
