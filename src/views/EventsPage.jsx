@@ -4,58 +4,29 @@ import HighchartsReact from 'highcharts-react-official';
 import HighchartsMap from 'highcharts/modules/map';
 import proj4 from 'proj4';
 import mapDataRO from '@highcharts/map-collection/countries/ro/ro-all.geo.json';
-import {Box, CircularProgress} from "@mui/material";
+import {
+    Avatar,
+    Box, Chip,
+    CircularProgress,
+    IconButton,
+    ListItem,
+    ListItemAvatar,
+    ListItemText,
+    Paper,
+    Typography
+} from "@mui/material";
 import {osm} from "pigeon-maps/providers";
 import {Map, Marker} from "pigeon-maps";
 import {useNavigate, useNavigation} from "react-router-dom";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 if (typeof window !== 'undefined') {
   window.proj4 = window.proj4 || proj4;
 }
 HighchartsMap(Highcharts);
 
-// const mapOptions = {
-//   chart: {
-//     map: 'countries/ro/ro-all'
-//   },
-//   title: {
-//     text: 'Upcoming events map'
-//   },
-//   mapNavigation: {
-//     enabled: true
-//   },
-//   series:[{
-//     // Use the ro-all map with no data as a basemap
-//     name: 'Basemap',
-//     mapData: mapDataRO,
-//     borderColor: '#A0A0A0',
-//     nullColor: 'rgba(200, 200, 200, 0.3)',
-//     showInLegend: false
-//   }, {
-//     // Specify points using lat/lon
-//     type: 'mappoint',
-//     showInLegend: false, // This hides the series name in the legend
-//     data: []
-//   }],
-//   plotOptions: {
-//     series: {
-//       states: {
-//         inactive: {
-//           opacity: 1
-//         }},
-//       stickyTracking: false
-//     }
-//   },
-//   tooltip: {
-//     headerFormat: '',
-//     formatter: event => {return "" + event.chart.hoverPoint.details},
-//     useHTML: true,
-//     borderWidth: 0,
-//     snap: 0
-//   },
-//   credits: { enabled: false },
-//   accessibility: { enabled: false },
-// };
 
 const CustomTooltip = ({ event, isVisible }) => {
     return (
@@ -64,7 +35,7 @@ const CustomTooltip = ({ event, isVisible }) => {
                 position: "relative",
                 top: 0,
                 left: 0,
-                maxWidth: 700,
+                width: 690,
                 backgroundColor: "white",
                 padding: "5px",
                 borderRadius: "5px",
@@ -82,6 +53,7 @@ const EventPage = () => {
   // const [options, setOptions] = useState(mapOptions)
     const navigate = useNavigate();
     const [hoveredEvent, setHoveredEvent] = useState(null);
+    const [hoveredOnList, setHoveredOnList] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -92,46 +64,6 @@ const EventPage = () => {
             setEvents(response)
             setIsLoading(false);
         })
-        // .then(response => {
-        //   setOptions(prevState => ({
-        //     ...prevState,
-        //     series: [{
-        //     // Use the ro-all map with no data as a basemap
-        //     name: 'Basemap',
-        //     mapData: mapDataRO,
-        //     borderColor: '#A0A0A0',
-        //     nullColor: 'rgba(200, 200, 200, 0.3)',
-        //     showInLegend: false
-        //   }, {
-        //     // Specify points using lat/lon
-        //     type: 'mappoint',
-        //     showInLegend: false, // This hides the series name in the legend
-        //       data: response?.map((ev) => {
-        //         return {
-        //           name: ev.title,
-        //           details: ev.comments[0],
-        //           lat: ev.latitude,
-        //           lon: ev.longitude,
-        //           marker: {
-        //             lineWidth: 1,
-        //             lineColor: '#000',
-        //             symbol: 'mapmarker',
-        //             radius: 10,
-        //             fillColor: "red"
-        //           },
-        //           dataLabels: {
-        //             enabled: true,
-        //             format: ev.title
-        //           }
-        //         }
-        //       })
-        //   }]
-        //   }))
-        //   setIsLoading(false);
-        //   setEvents(response)
-        // })
-
-
   }, []);
 
   return (
@@ -144,15 +76,70 @@ const EventPage = () => {
         }}>
           <CircularProgress size={120}/>
         </Box> :
-        <Box>
+        <Box  sx={{ display: 'flex', flexDirection: 'row', justifyContent : 'space-between' }}>
+            <Box sw={{maxWidth:10}}>
+                {events.map((event, index) => (
+                    <div key={event.id} style={{ width: '100%', padding: '10px' }}>
+                        <Paper
+                            style={{
+                                height: 7 !== event.id ? '110px' : '150',
+                                width: '650px',
+                                position: 'relative',
+                                padding: '20px',
+                                backgroundColor: 7 === event.id ? 'gold' : '#FFFFFF',
+                            }}
+                            onMouseOver={ev => {
+                                ev.stopPropagation();
+                                setHoveredOnList(event);
+                            }}
+                            onMouseOut={ev => {
+                                setHoveredOnList(null)
+                            }}
+                        >
+                            <IconButton onClick={() => handleLikeClick(event.id)} style={{ position: 'absolute', zIndex: 1 }}>
+                                <FavoriteIcon />
+                            </IconButton>
+                            <div style={{ position: 'absolute', top: '10px', right: '10px', display: 'flex', alignItems: 'center' }}>
+                                <CalendarTodayIcon style={{ marginRight: '5px' }} />
+                                <Typography variant="body2">{event.date}</Typography>
+                            </div>
+                            <ListItem >
+                                <ListItemAvatar>
+                                    <Avatar>
+                                        <NavigateNextIcon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={<Typography fontWeight="bold">{event.title}</Typography>}
+                                    secondary={
+                                        Array.isArray(event.keywords) && event.keywords.map((keyword, keyIndex) => (
+                                            <Chip key={keyIndex} label={keyword} style={{ margin: '5px', backgroundColor: '#cce7c9', color: 'black'}} />
+                                        ))
+                                    }
+                                />
+                            </ListItem>
+                            {7 === event.id && (
+                                <Typography
+                                    variant="body2"
+                                    style={{
+                                        position: 'absolute',
+                                        bottom: '10px',
+                                        left: '20px',
+                                        color: 'white',
+                                        fontWeight: 'bold',
+                                        fontSize: '15px',
+                                    }}
+                                >
+                                    Recommended based on your past attendances
+                                </Typography>
+                            )}
+                        </Paper>
+                    </div>
+                ))}
+            </Box>
             <Box sx={{ position: 'fixed', top: 'auto' , right: '5px', zIndex: 1000, border:2 }}>
-            {/*<HighchartsReact*/}
-            {/*  constructorType={'mapChart'}*/}
-            {/*  highcharts={Highcharts}*/}
-            {/*  options={options}*/}
-            {/*/>*/}
               <Map
-                  height={500}
+                  height={435}
                   width={700}
                   defaultCenter={[45.9432, 24.9668]}
                   defaultZoom={6.5}
@@ -164,8 +151,13 @@ const EventPage = () => {
                                  onMouseOut={() => setHoveredEvent(null)}
                   />
               })}
+              {hoveredOnList && <Marker width={40} color={"blue"} height={60} anchor={[hoveredOnList.latitude, hoveredOnList.longitude]} onClick={() => {navigate(`/event/${event.id}`)}}
+                                            onMouseOver={() => setHoveredEvent(hoveredOnList)}
+                                            onMouseOut={() => setHoveredEvent(null)} />
+                  }
               </Map>
-              {hoveredEvent &&  <CustomTooltip event={hoveredEvent} isVisible={hoveredEvent} />}
+                {console.log(hoveredEvent || hoveredOnList)}
+              {(hoveredEvent || hoveredOnList) &&  <CustomTooltip event={hoveredEvent || hoveredOnList} isVisible={hoveredEvent || hoveredOnList} />}
           </Box>
         </Box>
     )
