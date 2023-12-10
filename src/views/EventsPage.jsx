@@ -85,6 +85,7 @@ const EventPage = () => {
                                 position: 'relative',
                                 padding: '20px',
                                 backgroundColor: 7 === event.id ? 'gold' : '#FFFFFF',
+                                cursor: 'pointer', // Add cursor pointer for click indication
                             }}
                             onMouseOver={ev => {
                                 ev.stopPropagation();
