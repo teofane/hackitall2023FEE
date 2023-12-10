@@ -58,7 +58,7 @@ export default function EventDetails() {
             </Collapse>
           </Box>
           <Typography textAlign="left" variant="h4" sx={{ marginBottom: 3, display: 'flex', alignItems: 'center' }}>
-            {event.title} - {event.date}
+               {event.title} - {event.date}
             <Box sx={{ backgroundColor: '#f0f0f0', padding: '5px', borderRadius: '10px', marginLeft: '20px', marginTop: '5px' }}>
               <Typography
                 textAlign="left"
@@ -98,7 +98,7 @@ export default function EventDetails() {
                     <ListItem key={index} sx={{ marginBottom: '5px' }}>
                       <ListItem alignItems="flex-start">
                         <ListItemAvatar>
-                          <Avatar   alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                          <Avatar alt="Remy Sharp" src="../avatar.jpg" />
                         </ListItemAvatar>
                         <ListItemText
                           primary={participant}
@@ -126,9 +126,13 @@ export default function EventDetails() {
                 Items:
                 <List sx={{ paddingLeft: '20px' }}>
                   {event.items.map((item, index) => (
-                    <ListItem key={index} sx={{ marginBottom: '5px' }}>
-                      &#8226; {item}
-                    </ListItem>
+                    <React.Fragment key={index}>
+                      <ListItem sx={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
+                        <input type="checkbox" style={{ marginRight: '5px' }} /> {/* Checkbox */}
+                        <Typography sx={{ marginLeft: '5px' }}>{item}</Typography> {/* Item text */}
+                      </ListItem>
+                      {index !== event.items.length - 1 && <Divider />} {/* Add a divider except for the last item */}
+                    </React.Fragment>
                   ))}
                 </List>
               </Typography>

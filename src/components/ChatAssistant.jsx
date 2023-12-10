@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => createStyles({
 export default function ChatAssistant() {
   const classes = useStyles();
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [messages, setMessages] = useState([{data:"Salut! Eu sunt asistentul tau virtual si te pot ajuta cu orice intrebari ai avea!", who:"chatGPT"}]);
+  const [messages, setMessages] = useState([{data:"Hello! I am your virtual assistant and I can help you with any question you might have.", who:"chatGPT"}]);
   const [isLoading, setIsLoading] = useState(false)
 
   const appendNewMessage = (message, who) => {
